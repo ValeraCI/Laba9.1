@@ -15,19 +15,13 @@ public class Main {
         plans.add(new Plane("Самолёт 4", 1));
         plans.add(new Plane("Самолёт 5", 1));
 
-        List<Runway> runways = new ArrayList();
         for (int i = 0; i < 7; i++) {
-            runways.add(new Runway(airport));
+            new Runway(airport, plans, i).start();
         }
-        Plane plane;
-        int x = 0;
-        while (true) {
-            plane = plans.get(x % plans.size());
-            if (!plane.isOnTheGround()) {
-                runways.get(x % runways.size()).setPlane(plane);
-                runways.get(x % runways.size()).run();
-                x++;
-            }
+        while (true){
+            Thread.sleep(5000);
+            System.out.println();
         }
+
     }
 }
