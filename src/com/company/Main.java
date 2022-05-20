@@ -1,26 +1,22 @@
 package com.company;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
-        Airport airport = new Airport();
-        List<Plane> plans = new ArrayList();
-        plans.add(new Plane("Самолёт 1", 1));
-        plans.add(new Plane("Самолёт 2", 1));
-        plans.add(new Plane("Самолёт 3", 1));
-        plans.add(new Plane("Самолёт 4", 1));
-        plans.add(new Plane("Самолёт 5", 1));
+    static int greaterThanZero(String text){
+        int x;
+        do{
+            x = Input.inInt(text);
+            if(x<=0) System.out.println("Число меньше 1");
+        }while (x<=0);
+        return x;
+    }
 
-        for (int i = 0; i < 7; i++) {
-            new Runway(airport, plans, i).start();
-        }
-        while (true){
-            Thread.sleep(5000);
-            System.out.println();
+    public static void main(String[] args){
+        int x = greaterThanZero("Введите количество полос: ");
+        int y = greaterThanZero("Введите количество самолётов: ");
+        Airport airport = new Airport(x, y);
+        for(int i = 0; i < x; i++){
+            new Runway(airport, (i+1)).start();
         }
 
     }

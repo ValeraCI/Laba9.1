@@ -13,4 +13,9 @@ public class Input {
             }
         }
     }
+
+    static String inStr(String text){
+        System.out.print(text);
+        return new Scanner(System.in).nextLine();
+    }
 }

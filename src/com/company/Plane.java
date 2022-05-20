@@ -6,9 +6,11 @@ public class Plane{
     private boolean onTheGround = false;
 
 
-    public Plane(String title, int capacity) {
-        this.title = title;
-        this.capacity = capacity;
+    public Plane() {
+        title = Input.inStr("Введите название самолёта: ");
+        do {
+            capacity = Input.inInt("Введите количество мест: ");
+        }while (capacity <= 0);
     }
 
     public String getTitle() {

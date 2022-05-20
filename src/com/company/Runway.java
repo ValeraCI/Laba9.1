@@ -1,17 +1,12 @@
 package com.company;
 
-import java.util.List;
-
 public class Runway extends Thread {
-    private volatile List<Plane> plans;
     private final Airport airport;
-    private volatile Plane plane;
-    private int i = 0;
     private final int number;
+    private volatile Plane plane;
 
-    public Runway(Airport airport, List<Plane> plans, int number) {
+    public Runway(Airport airport, int number) {
         this.airport = airport;
-        this.plans = plans;
         this.number = number;
     }
 
@@ -19,25 +14,22 @@ public class Runway extends Thread {
     @Override
     public void run() {
         while (true) {
-            synchronized (this) {
-                while (true){
-                    i++;
-                    plane = plans.get(i % plans.size());
-                    if(!plane.isOnTheGround()){
-                        plane.setOnTheGround(true);
-                        plans.set(i % plans.size(), plane);
-                        break;
-                    }
+            plane = airport.getFreePlane(number);
+            if (plane != null) {
+                airport.takePlane(plane);
+                try {
+                    Thread.sleep(6000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                System.out.println("Самолёт " + plane + " на полосе " + number);
+                airport.sendPlane(plane, number);
             }
-            try {
-                Thread.sleep(5000);
-                plane.setOnTheGround(false);
-                plans.set(i % plans.size(), plane);
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            else {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
